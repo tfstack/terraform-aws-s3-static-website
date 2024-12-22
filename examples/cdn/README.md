@@ -29,7 +29,7 @@ resource "random_string" "suffix" {
 }
 
 module "s3_static_website" {
-  source = "../.."
+  source = "tfstack/s3-static-website/aws"
 
   s3_config = {
     bucket_name          = "s3-static-site"
