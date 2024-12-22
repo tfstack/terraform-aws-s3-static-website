@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "davidanson.vscode-markdownlint",
+    "eamodio.gitlens",
+    "esbenp.prettier-vscode",
+    "foxundermoon.shell-format",
+    "Gruntfuggly.todo-tree",
+    "hashicorp.terraform",
+    "mhutchie.git-graph",
+    "streetsidesoftware.code-spell-checker",
+    "usernamehw.errorlens",
+    "vscode-icons-team.vscode-icons"
+  ]
+}
