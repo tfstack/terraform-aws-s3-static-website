@@ -13,6 +13,16 @@ output "s3_bucket_region" {
   description = "The AWS region where the S3 bucket is deployed."
 }
 
+output "s3_bucket_domain_name" {
+  value       = aws_s3_bucket.this.bucket_domain_name
+  description = "The domain name of the S3 bucket (legacy global endpoint)."
+}
+
+output "s3_bucket_regional_domain_name" {
+  value       = aws_s3_bucket.this.bucket_regional_domain_name
+  description = "The regional domain name of the S3 bucket (recommended for CloudFront origins)."
+}
+
 output "s3_logging_bucket" {
   value       = var.logging_config.enable ? aws_s3_bucket.logging[0].id : null
   description = "The ID of the S3 bucket used for logging, if logging is enabled. Null if logging is disabled."
