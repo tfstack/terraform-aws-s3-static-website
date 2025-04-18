@@ -317,6 +317,10 @@ resource "aws_s3_bucket_lifecycle_configuration" "logging" {
     id     = "log-retention"
     status = "Enabled"
 
+    filter {
+      prefix = ""
+    }
+
     expiration {
       days = var.logging_config.log_retention_days
     }
