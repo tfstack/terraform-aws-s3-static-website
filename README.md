@@ -66,8 +66,10 @@ No modules.
 | <a name="output_cloudfront_dns_name"></a> [cloudfront\_dns\_name](#output\_cloudfront\_dns\_name) | The DNS name for the CloudFront distribution, managed by Route 53, if CDN is enabled. |
 | <a name="output_cloudfront_website_url"></a> [cloudfront\_website\_url](#output\_cloudfront\_website\_url) | The website URL served through CloudFront when CDN is enabled. Empty if CDN is disabled. |
 | <a name="output_s3_bucket_arn"></a> [s3\_bucket\_arn](#output\_s3\_bucket\_arn) | The ARN of the S3 bucket. |
+| <a name="output_s3_bucket_domain_name"></a> [s3\_bucket\_domain\_name](#output\_s3\_bucket\_domain\_name) | The domain name of the S3 bucket (legacy global endpoint). |
 | <a name="output_s3_bucket_id"></a> [s3\_bucket\_id](#output\_s3\_bucket\_id) | The unique ID of the S3 bucket. |
 | <a name="output_s3_bucket_region"></a> [s3\_bucket\_region](#output\_s3\_bucket\_region) | The AWS region where the S3 bucket is deployed. |
+| <a name="output_s3_bucket_regional_domain_name"></a> [s3\_bucket\_regional\_domain\_name](#output\_s3\_bucket\_regional\_domain\_name) | The regional domain name of the S3 bucket (recommended for CloudFront origins). |
 | <a name="output_s3_logging_bucket"></a> [s3\_logging\_bucket](#output\_s3\_logging\_bucket) | The ID of the S3 bucket used for logging, if logging is enabled. Null if logging is disabled. |
 | <a name="output_s3_website_url"></a> [s3\_website\_url](#output\_s3\_website\_url) | The HTTP URL of the S3 static website. Note: HTTPS is not natively supported by S3. |
 | <a name="output_website_url"></a> [website\_url](#output\_website\_url) | The dynamic website URL, using Route 53 custom domain if CDN is enabled, otherwise S3. |
