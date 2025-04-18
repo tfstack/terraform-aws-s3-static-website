@@ -1,0 +1,9 @@
+name: Generate terraform docs
+
+on:
+  pull_request: {}
+permissions:
+  contents: write
+jobs:
+  terraform-docs:
+    uses: actionsforge/actions/.github/workflows/terraform-docs.yml@main

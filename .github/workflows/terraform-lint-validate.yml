@@ -5,4 +5,4 @@ permissions:
   contents: read
 jobs:
   terraform-lint-validate:
-    uses: tfstack/actions/.github/workflows/terraform-lint-validate.yml@main
+    uses: actionsforge/actions/.github/workflows/terraform-lint-validate.yml@main
