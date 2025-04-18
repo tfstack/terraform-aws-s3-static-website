@@ -1,0 +1,8 @@
+name: Terraform Lint Validate
+on:
+  pull_request: {}
+permissions:
+  contents: read
+jobs:
+  terraform-lint-validate:
+    uses: tfstack/actions/.github/workflows/terraform-lint-validate.yml@main
