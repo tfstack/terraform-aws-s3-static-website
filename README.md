@@ -2,6 +2,7 @@
 
 Terraform module that deploys basic AWS S3 static website
 
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -48,73 +49,12 @@ No modules.
 
 ## Inputs
 
-### S3 Configuration
-
-- **`s3_config`**: Configuration for the S3 bucket, including naming, access controls, and website settings.
-  - **Attributes**:
-    - **`bucket_name`**: Base name of the S3 bucket (`string`, required). Must be DNS-compliant (lowercase, numbers, hyphens only, and combined with `bucket_suffix` must not exceed 63 characters).
-    - **`bucket_acl`**: Access control list for the S3 bucket (`string`, default: `"private"`). Allowed values: `"private"`, `"public-read"`.
-    - **`bucket_suffix`**: Optional suffix for the bucket name (`string`, default: `""`). Must not exceed 16 characters.
-    - **`enable_force_destroy`**: Force deletion of the bucket (`bool`, default: `false`).
-    - **`object_ownership`**: Defines bucket ownership (`string`, default: `"BucketOwnerPreferred"`). Allowed values: `"BucketOwnerPreferred"`, `"ObjectWriter"`, `"BucketOwnerEnforced"`.
-    - **`enable_versioning`**: Enable versioning for the bucket (`bool`, default: `false`).
-    - **`index_document`**: Name of the index document (`string`, default: `"index.html"`). Cannot be empty.
-    - **`error_document`**: Name of the error document (`string`, default: `""`).
-    - **`public_access`**: Public access configuration for the bucket (`object`):
-      - **`block_public_acls`**: Block public ACLs (`bool`, default: `true`).
-      - **`block_public_policy`**: Block public bucket policies (`bool`, default: `true`).
-      - **`ignore_public_acls`**: Ignore public ACLs (`bool`, default: `true`).
-      - **`restrict_public_buckets`**: Restrict public buckets (`bool`, default: `true`).
-    - **`source_file_path`**: Path to the local website files (`string`, default: `"/var/www"`). Cannot be empty.
-    - **`allowed_principals`**: List of principals allowed access to the bucket (`list(string)`, default: `["*"]`). Must contain at least one principal.
-
----
-
-### CDN Configuration
-
-- **`cdn_config`**: Settings for enabling HTTPS, CloudFront, ACM, and optional custom domain configurations.
-  - **Attributes**:
-    - **`enable`**: Enable or disable CDN. When `false`, CloudFront-related outputs will be `null` (`bool`, default: `false`).
-    - **`domain`**: Domain settings for the CDN (`object`).
-      - **`name`**: Root domain name (`string`, default: `""`). Must be DNS-compliant.
-      - **`sub_name`**: Subdomain name (`string`, default: `""`). Must be DNS-compliant.
-      - **`ttl`**: Time-to-live for DNS records (`number`, default: `300`).
-    - **`validation_method`**: ACM validation method (`string`, default: `"DNS"`).
-    - **`origin_access_comment`**: Comment for the CloudFront origin access identity (`string`, default: `"Access Identity for S3 Origin"`).
-    - **`allowed_methods`**: Allowed HTTP methods (`list(string)`, default: `["GET", "HEAD", "OPTIONS"]`). Must contain at least one method.
-    - **`cached_methods`**: Cached HTTP methods (`list(string)`, default: `["GET", "HEAD"]`). Must contain at least one method.
-    - **`enable_compression`**: Enable HTTP compression (`bool`, default: `true`).
-    - **`protocol_policy`**: CloudFront protocol policy (`string`, default: `"redirect-to-https"`). Allowed values: `"allow-all"`, `"redirect-to-https"`, `"https-only"`.
-    - **`forward_query_string`**: Forward query strings to the origin (`bool`, default: `false`).
-    - **`forward_cookies`**: Cookie forwarding policy (`string`, default: `"none"`).
-    - **`minimum_ttl`**: Minimum TTL for objects (`number`, default: `0`). Must be greater than or equal to `0`.
-    - **`default_ttl`**: Default TTL for objects (`number`, default: `300`). Must be greater than or equal to `minimum_ttl`.
-    - **`maximum_ttl`**: Maximum TTL for objects (`number`, default: `1200`). Must be greater than or equal to `default_ttl`.
-    - **`price_class`**: CloudFront price class (`string`, default: `"PriceClass_All"`). Allowed values: `"PriceClass_All"`, `"PriceClass_200"`, `"PriceClass_100"`.
-    - **`error_page_path`**: Path for custom error pages (`string`, default: `"/error.html"`).
-    - **`error_page_cache_ttl`**: TTL for caching error pages (`number`, default: `300`).
-    - **`ssl_support_method`**: SSL support method for CloudFront (`string`, default: `"sni-only"`). Allowed values: `"sni-only"`, `"vip"`.
-    - **`minimum_tls_version`**: Minimum TLS version for HTTPS (`string`, default: `"TLSv1.2_2021"`). Allowed values: `"SSLv3"`, `"TLSv1"`, `"TLSv1.1"`, `"TLSv1.2"`, `"TLSv1.2_2018"`, `"TLSv1.2_2021"`.
-    - **`geo_restriction_policy`**: Geo-restriction policy (`string`, default: `"none"`). Allowed values: `"none"`, `"whitelist"`, `"blacklist"`.
-
----
-
-### Logging Configuration
-
-- **`logging_config`**: Configuration for S3 bucket logging.
-  - **Attributes**:
-    - **`enable`**: Enable or disable logging. When `false`, `s3_logging_bucket` output will be `null` (`bool`, default: `false`).
-    - **`s3_prefix`**: Prefix for logging files in S3 (`string`, default: `"s3/"`). Must be a valid string.
-    - **`cloudfront_prefix`**: Prefix for CloudFront logs in S3 (`string`, default: `"cloudfront/"`). Must be a valid string.
-    - **`log_retention_days`**: Retention period for logs (`number`, default: `30`).
-    - **`enable_encryption`**: Enable encryption for logs (`bool`, default: `true`).
-    - **`encryption_algorithm`**: Algorithm for log encryption (`string`, default: `"AES256"`).
-
----
-
-### Tags
-
-- **`tags`**: Map of tags to assign to the resources (`map(string)`, default: `{}`).
+| Name | Description | Type | Default | Required |
+|------|-------------|------|---------|:--------:|
+| <a name="input_cdn_config"></a> [cdn\_config](#input\_cdn\_config) | Settings for enabling HTTPS, CloudFront, ACM, and optional custom domain configurations. | <pre>object({<br/>    enable = bool<br/>    domain = object({<br/>      name     = string<br/>      sub_name = string<br/>      ttl      = optional(number, 300)<br/>    })<br/>    validation_method      = optional(string, "DNS")<br/>    origin_access_comment  = optional(string, "Access Identity for S3 Origin")<br/>    allowed_methods        = optional(list(string), ["GET", "HEAD", "OPTIONS"])<br/>    cached_methods         = optional(list(string), ["GET", "HEAD"])<br/>    enable_compression     = optional(bool, true)<br/>    protocol_policy        = optional(string, "redirect-to-https")<br/>    forward_query_string   = optional(bool, false)<br/>    forward_cookies        = optional(string, "none")<br/>    minimum_ttl            = optional(number, 0)<br/>    default_ttl            = optional(number, 300)<br/>    maximum_ttl            = optional(number, 1200)<br/>    price_class            = optional(string, "PriceClass_All")<br/>    error_page_path        = optional(string, "/error.html")<br/>    error_page_cache_ttl   = optional(number, 300)<br/>    ssl_support_method     = optional(string, "sni-only")<br/>    minimum_tls_version    = optional(string, "TLSv1.2_2021")<br/>    geo_restriction_policy = optional(string, "none")<br/>  })</pre> | <pre>{<br/>  "allowed_methods": [<br/>    "GET",<br/>    "HEAD",<br/>    "OPTIONS"<br/>  ],<br/>  "cached_methods": [<br/>    "GET",<br/>    "HEAD"<br/>  ],<br/>  "default_ttl": 300,<br/>  "domain": {<br/>    "name": "",<br/>    "sub_name": "",<br/>    "ttl": 300<br/>  },<br/>  "enable": false,<br/>  "enable_compression": true,<br/>  "error_page_cache_ttl": 300,<br/>  "error_page_path": "/error.html",<br/>  "forward_cookies": "none",<br/>  "forward_query_string": false,<br/>  "geo_restriction_policy": "none",<br/>  "maximum_ttl": 1200,<br/>  "minimum_tls_version": "TLSv1.2_2021",<br/>  "minimum_ttl": 0,<br/>  "origin_access_comment": "Access Identity for S3 Origin",<br/>  "price_class": "PriceClass_All",<br/>  "protocol_policy": "redirect-to-https",<br/>  "ssl_support_method": "sni-only",<br/>  "validation_method": "DNS"<br/>}</pre> | no |
+| <a name="input_logging_config"></a> [logging\_config](#input\_logging\_config) | Configuration for S3 bucket logging. | <pre>object({<br/>    enable               = bool<br/>    s3_prefix            = optional(string, "s3/")<br/>    cloudfront_prefix    = optional(string, "cloudfront/")<br/>    log_retention_days   = optional(number, 30)<br/>    enable_encryption    = optional(bool, true)<br/>    encryption_algorithm = optional(string, "AES256")<br/>  })</pre> | <pre>{<br/>  "cloudfront_prefix": "cloudfront/",<br/>  "enable": false,<br/>  "enable_encryption": true,<br/>  "encryption_algorithm": "AES256",<br/>  "log_retention_days": 90,<br/>  "s3_prefix": "s3/"<br/>}</pre> | no |
+| <a name="input_s3_config"></a> [s3\_config](#input\_s3\_config) | Configuration for the S3 bucket, including naming, access controls, and website settings. | <pre>object({<br/>    bucket_name          = optional(string, "s3-static-site")<br/>    bucket_acl           = optional(string, "private")<br/>    bucket_suffix        = optional(string, "")<br/>    enable_force_destroy = optional(bool, false)<br/>    object_ownership     = optional(string, "BucketOwnerPreferred")<br/>    enable_versioning    = optional(bool, false)<br/>    index_document       = optional(string, "index.html")<br/>    error_document       = optional(string, "")<br/>    public_access = object({<br/>      block_public_acls       = optional(bool, true)<br/>      block_public_policy     = optional(bool, true)<br/>      ignore_public_acls      = optional(bool, true)<br/>      restrict_public_buckets = optional(bool, true)<br/>    })<br/>    source_file_path   = optional(string, "/var/www")<br/>    allowed_principals = optional(list(string), ["*"])<br/>  })</pre> | <pre>{<br/>  "allowed_principals": [<br/>    "*"<br/>  ],<br/>  "bucket_acl": "private",<br/>  "bucket_name": "s3-static-site",<br/>  "bucket_suffix": "",<br/>  "enable_force_destroy": false,<br/>  "enable_versioning": false,<br/>  "error_document": "",<br/>  "index_document": "index.html",<br/>  "object_ownership": "BucketOwnerPreferred",<br/>  "public_access": {<br/>    "block_public_acls": true,<br/>    "block_public_policy": true,<br/>    "ignore_public_acls": true,<br/>    "restrict_public_buckets": true<br/>  },<br/>  "source_file_path": "/var/www"<br/>}</pre> | no |
+| <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to assign to the resources. Tags are useful for identifying and managing resources in AWS. If no tags are provided, an empty map will be used. | `map(string)` | `{}` | no |
 
 ## Outputs
 
@@ -131,3 +71,4 @@ No modules.
 | <a name="output_s3_logging_bucket"></a> [s3\_logging\_bucket](#output\_s3\_logging\_bucket) | The ID of the S3 bucket used for logging, if logging is enabled. Null if logging is disabled. |
 | <a name="output_s3_website_url"></a> [s3\_website\_url](#output\_s3\_website\_url) | The HTTP URL of the S3 static website. Note: HTTPS is not natively supported by S3. |
 | <a name="output_website_url"></a> [website\_url](#output\_website\_url) | The dynamic website URL, using Route 53 custom domain if CDN is enabled, otherwise S3. |
+<!-- END_TF_DOCS -->
