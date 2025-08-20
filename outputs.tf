@@ -9,7 +9,7 @@ output "s3_bucket_arn" {
 }
 
 output "s3_bucket_region" {
-  value       = data.aws_region.current.name
+  value       = data.aws_region.current.region
   description = "The AWS region where the S3 bucket is deployed."
 }
 
@@ -37,7 +37,7 @@ output "website_url" {
   value = (
     var.cdn_config.enable
     ? "https://${aws_route53_record.cloudfront[0].fqdn}"
-    : "http://${aws_s3_bucket.this.bucket}.s3-website.${data.aws_region.current.name}.amazonaws.com"
+    : "http://${aws_s3_bucket.this.bucket}.s3-website.${data.aws_region.current.region}.amazonaws.com"
   )
   description = "The dynamic website URL, using Route 53 custom domain if CDN is enabled, otherwise S3."
 }

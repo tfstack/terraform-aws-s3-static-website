@@ -35,6 +35,20 @@ module "s3_static_website" {
   }
 }
 
+# Create robots.txt directly in S3
+resource "aws_s3_object" "robots_txt" {
+  bucket       = module.s3_static_website.s3_bucket_id
+  key          = "robots.txt"
+  content      = "User-agent: *\nDisallow: /"
+  content_type = "text/plain"
+
+  tags = {
+    Name      = "robots.txt"
+    ManagedBy = "terraform"
+    Purpose   = "robots-txt"
+  }
+}
+
 output "website_url" {
   value = module.s3_static_website.website_url
 }
