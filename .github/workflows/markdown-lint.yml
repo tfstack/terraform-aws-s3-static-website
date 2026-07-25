@@ -8,4 +8,4 @@ permissions:
   pull-requests: read
 jobs:
   markdown-lint:
-    uses: tfstack/actions/.github/workflows/markdown-lint.yml@main
+    uses: actionsforge/actions/.github/workflows/markdown-lint.yml
