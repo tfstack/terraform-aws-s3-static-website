@@ -8,4 +8,4 @@ permissions:
   pull-requests: read
 jobs:
   commitmsg-conform:
-    uses: tfstack/actions/.github/workflows/commitmsg-conform.yml@main
+    uses: actionsforge/actions/.github/workflows/commitmsg-conform.yml
